@@ -1,0 +1,5 @@
+comment = 'Enhanced fixtures for pgtap'
+module_pathname = pgtap_fixture
+requires = 'plpgsql, pgtap'
+relocatable = true
+superuser = false

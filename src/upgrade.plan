@@ -1,0 +1,42 @@
+%syntax-version=1.0.0
+%project=dream-db-extension
+%uri=https://github.com/tyrusj/fireship-dream2/tree/main/dream-db/pg_extension
+
+tables/fixture/shared 2025-04-14T16:52:05Z Josh Taylor <josh@tyrusaudio.com> # Create a table for the fixtures.
+tables/test/shared 2025-04-21T21:07:17Z Josh Taylor <josh@tyrusaudio.com> # Create a table for the tests.
+tables/test_data/shared 2025-04-21T23:08:37Z Josh Taylor <josh@tyrusaudio.com> # Create the test data table.
+functions/_plan_parent_fixtures/shared 2025-04-23T18:17:03Z Josh Taylor <josh@tyrusaudio.com> # Create a function that adds parent fixtures of a given fixture to the fixture plan.
+functions/_plan_child_tests_and_fixtures/shared 2025-04-24T15:50:19Z Josh Taylor <josh@tyrusaudio.com> # Create a function that adds child tests and fixtures of a given fixture to the fixture plan.
+tables/test_plan/shared 2025-04-25T17:39:48Z Josh Taylor <josh@tyrusaudio.com> # Create a table that will list the IDs of tests that have been planned.
+tables/fixture_plan/shared 2025-04-25T17:45:41Z Josh Taylor <josh@tyrusaudio.com> # Create a table that will contain the fixtures that have been planned.
+functions/_plan_tests_and_fixtures/shared 2025-04-25T22:23:54Z Josh Taylor <josh@tyrusaudio.com> # Create a function that will plan the necessary tests and fixtures when given an initial set of tests and fixtures.
+functions/_escape_special_characters/shared 2025-05-22T17:19:53Z Josh Taylor <josh@tyrusaudio.com> # Add function to escape special characters in accordance with the TAP specification
+functions/_comment_lines/shared 2025-05-22T17:45:59Z Josh Taylor <josh@tyrusaudio.com> # Add a function that comments a line in accordance with the TAP specification.
+functions/_indent_lines/shared 2025-05-22T22:07:57Z Josh Taylor <josh@tyrusaudio.com> # Create function to indent lines in a string for display in TAP results.
+functions/_format_result/shared 2025-05-22T22:31:03Z Josh Taylor <josh@tyrusaudio.com> # Create function to format a result for a TAP test.
+functions/_format_subtest/shared 2025-05-23T16:38:21Z Josh Taylor <josh@tyrusaudio.com> # Create a function to return a TAP subtest comment.
+functions/_format_plan/shared 2025-05-23T17:00:23Z Josh Taylor <josh@tyrusaudio.com> # Create a function to return a TAP plan.
+functions/_format_skip/shared 2025-05-23T18:19:54Z Josh Taylor <josh@tyrusaudio.com> # Create a function to return a TAP skip message.
+functions/_get_fixture_path/shared 2025-05-26T16:15:44Z Josh Taylor <josh@tyrusaudio.com> # Create a function that gets the fixture path given the fixture ID.
+functions/_function_rollback/shared 2025-05-01T19:58:16Z Josh Taylor <josh@tyrusaudio.com> # Create a function that will throw an exception for the purposes of rolling back a transaction.
+pgtap_wrappers/pgtap__cleanup 2025-05-30T19:11:44Z Josh Taylor <josh@tyrusaudio.com> # Wrap pgtap function _cleanup()
+pgtap_wrappers/pgtap_no_plan 2025-05-30T17:57:42Z Josh Taylor <josh@tyrusaudio.com> # Wrap pgtap no_plan() function
+pgtap_wrappers/pgtap__get 2025-05-30T18:02:59Z Josh Taylor <josh@tyrusaudio.com> # Wrap pgtap _get(text)
+pgtap_wrappers/pgtap__set 2025-05-30T18:07:05Z Josh Taylor <josh@tyrusaudio.com> # wrap pgtap _set(text, integer)
+pgtap_wrappers/pgtap__restart_numb_seq 2025-05-30T18:16:01Z Josh Taylor <josh@tyrusaudio.com> # Wrap:  ALTER SEQUENCE __tresults___numb_seq RESTART WITH 1
+functions/_fail_test/shared 2025-06-02T22:07:28Z Josh Taylor <josh@tyrusaudio.com> # Create a function that fails a test and outputs TAP.
+functions/_execute_test_with_data/shared 2025-06-02T18:39:46Z Josh Taylor <josh@tyrusaudio.com> # Add a function to execute a test that has associated test data records.
+functions/_execute_test_without_data/shared 2025-06-02T18:01:56Z Josh Taylor <josh@tyrusaudio.com> # Create function to execute a test that does not take parameters from test data
+functions/_execute_test/shared 2025-04-29T23:53:33Z Josh Taylor <josh@tyrusaudio.com> # Create a function that will execute a test with data from the test_data table.
+functions/_execute_fixture/shared 2025-05-07T15:45:07Z Josh Taylor <josh@tyrusaudio.com> # Create a function that executes a fixture and its child fixtures and tests.
+functions/_is_fixture_path_valid/shared 2025-04-21T14:45:00Z Josh Taylor <josh@tyrusaudio.com> # Create a function that checks if a fixture path is valid.
+functions/_get_fixture_by_path_and_root/shared 2025-05-08T17:00:05Z Josh Taylor <josh@tyrusaudio.com> # Create a function that will return a fixture ID given a fixture path and the ID of the fixture that the path is relative to (its root).
+functions/execute_tests/shared 2025-05-09T17:09:11Z Josh Taylor <josh@tyrusaudio.com> # Create a function that will execute given lists of fixtures and tests.
+functions/add_test/shared 2025-05-14T15:54:46Z Josh Taylor <josh@tyrusaudio.com> # Create a function that adds a test that can be run.
+functions/remove_test/shared 2025-05-14T17:37:53Z Josh Taylor <josh@tyrusaudio.com> # Create a function to remove a test.
+functions/_remove_unused_fixtures/shared 2025-05-14T17:46:08Z Josh Taylor <josh@tyrusaudio.com> # Create a function that will remove unused fixtures given a fixture ID.
+functions/configure_fixture/shared 2025-05-15T15:55:19Z Josh Taylor <josh@tyrusaudio.com> # Add a function that will add a description, startup, shutdown, setup, or teardown to a fixture.
+functions/unconfigure_fixture/shared 2025-05-15T18:14:16Z Josh Taylor <josh@tyrusaudio.com> # Create a function that resets a fixture record's startup, shutdown, setup, and teardown to null.
+functions/add_test_data/shared 2025-05-15T18:52:15Z Josh Taylor <josh@tyrusaudio.com> # Create function that adds data for a test.
+functions/remove_test_data/shared 2025-05-15T18:55:21Z Josh Taylor <josh@tyrusaudio.com> # Create a function that removes data assigned to a test.
+functions/remove_all_test_data/shared 2025-05-15T18:58:21Z Josh Taylor <josh@tyrusaudio.com> # Create a function that removes all test data for a test.

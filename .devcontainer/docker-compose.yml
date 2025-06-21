@@ -1,0 +1,69 @@
+version: '3.7'
+
+services:
+  devcontainer:
+    hostname: pgtap_fixture
+    # # These security options were copied from here:
+    # # https://www.redhat.com/en/blog/podman-inside-container
+    # security_opt: [
+    #   label=disable,
+    #   unmask=ALL
+    # ]
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # devices: [
+    #   # This device was copied from here:
+    #   # https://www.redhat.com/en/blog/podman-inside-container
+    #   /dev/fuse,
+    #   # I presume this device is used for podman to access the network. Errors occur when this is excluded.
+    #   /dev/net/tun
+    # ]
+    volumes:
+      - ../..:/workspace:rw
+      # - scratch:/home/vscode/scratch:Z
+      # The images and containers are stored in a volume, so that when the dev container is rebuilt, they persist.
+      # - podman-cache:/home/vscode/.local/share/containers:Z
+      # - tmp:/tmp:rw
+      # - podman-socket:/mnt/podman:rw
+    networks:
+      - dev-network
+    # depends_on:
+    #   - podman-host
+  # podman-host:
+  #   build:
+  #     context: .
+  #     dockerfile: podman-host.dockerfile
+  #   user: podman
+  #   devices: [
+  #     /dev/fuse
+  #   ]
+  #   volumes:
+  #     - podman-socket:/mnt/podman:rw
+
+      # - podman-run-root:/mnt/podman-run-root:rw
+    #userns_mode: keep-id
+    # network_mode: service:db
+  # postgres-debug:
+  #   image: postgres
+  #   restart: always
+  #   shm_size: 128mb
+  #   environment:
+  #     - POSTGRES_PASSWORD=password1
+  #   ports:
+  #     - 5432:5432
+# volumes:
+  # podman-cache:
+  # scratch:
+  # podman-run-root:
+  #   driver_opts:
+  #     name: podman-run-root
+  #     type: tmpfs
+  # tmp:
+  #   driver_opts:
+  #     # name: tmp
+  #     # This volume is used to force /tmp to have a tmpfs file system. There might be a way to do that within the
+  #     # dockerfile instead. That would be better than doing it here in the compose file.
+  #     type: tmpfs
+networks:
+  dev-network:

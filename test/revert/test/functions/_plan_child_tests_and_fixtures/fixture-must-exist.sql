@@ -1,0 +1,7 @@
+-- Revert dream-db-extension-tests:functions/plan-child-tests-and-fixtures/fixture-must-exist from pg
+
+BEGIN;
+
+drop function unit_test.test_func_plan_children__fixture_must_exist();
+
+COMMIT;
