@@ -2,32 +2,9 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
 {
 	"name": "Ubuntu",
-	// "overrideCommand": false,
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	// "build": {
-	// 	"dockerfile": "Dockerfile"
-	// },
-	// "image": "mcr.microsoft.com/devcontainers/base:jammy",
-	"dockerComposeFile": "docker-compose.yml",
+	"dockerComposeFile": "compose.yml",
 	"service": "devcontainer",
 	"workspaceFolder": "/workspace/pgtap_fixture",
-	// "features": {
-	// 	"ghcr.io/devcontainers/features/docker-in-docker:2": {
-	// 		"moby": true,
-	// 		"azureDnsAutoDetection": true,
-	// 		"installDockerBuildx": true,
-	// 		"installDockerComposeSwitch": true,
-	// 		"version": "latest",
-	// 		"dockerDashComposeVersion": "latest"
-	// 	},
-	// 	"ghcr.io/devcontainers/features/node:1": {
-	// 		"nodeGypDependencies": true,
-	// 		"installYarnUsingApt": true,
-	// 		"version": "lts",
-	// 		"pnpmVersion": "latest",
-	// 		"nvmVersion": "latest"
-	// 	}
-	// },
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
@@ -54,14 +31,13 @@
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
 	// "remoteUser": "root"
-
-	// "runArgs": [
-	// 	"--userns=keep-id"
-	// ],
 	
+	// Specify the user that the container will run as.
 	"containerEnv": {
 		"HOME": "/home/dev"
 	},
 	"containerUser": "dev",
+
+	// Tell Git that it's safe to use the workspace directory.
 	"postStartCommand": "git config --global --add safe.directory '${containerWorkspaceFolder}/*'"
 }

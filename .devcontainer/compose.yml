@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  devcontainer:
+    hostname: pgtap_fixture
+    # # These security options were copied from here:
+    # # https://www.redhat.com/en/blog/podman-inside-container
+    security_opt: [
+      label=disable,
+      unmask=ALL
+    ]
+    build:
+      context: .
+      dockerfile: containerfile
+    devices: [
+      # Mapping this device is necessary for creating podman-in-podman containers.
+      # https://www.redhat.com/en/blog/podman-inside-container
+      /dev/fuse,
+      # Mapping this device is necessary for networking podman-in-podman containers.
+      /dev/net/tun
+    ]
+    volumes:
+      # The parent of this directory is this project's directory. The parent of that directory is assumed
+      # to contain other developer projects that may be relevant. If this volume only mapped this project's
+      # directory, that might be too restrictive, so the parent of project directory is mapped.
+      - ../..:/workspace:rw
+      # This volume persists the nested podman containers when this container is removed.
+      - podman-cache:/home/dev/.local/share/containers:Z
+      # This volume persists the podman networks when this container is removed.
+      - podman-network-cache:/home/dev/.config/cni:Z
+      # This volume forces the /tmp directory to use the tmpfs filesystem to prevent errors on reboot.
+      - tmp:/tmp:rw
+    ports:
+      # If a nested (postgres) container maps this port, then the host will be able to access that nested
+      # container.
+      - 5432:5432
+volumes:
+  podman-cache:
+  podman-network-cache:
+  # This volume forces the /tmp directory to use the tmpfs filesystem to prevent errors on reboot.
+  tmp:
+    driver_opts:
+      type: tmpfs

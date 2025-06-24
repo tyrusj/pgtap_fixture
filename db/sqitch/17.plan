@@ -1,0 +1,24 @@
+%syntax-version=1.0.0
+%project=pgtap_fixture_provision
+%uri=https://github.com/tyrusj/pgtap_fixture/db/17
+
+roles/nonadmin/create/shared 2025-04-07T22:21:24Z Josh Taylor <josh@tyrusaudio.com> # Create a role that can log into the database and deploy to it.
+roles/nonadmin/set/search_path/shared 2025-04-14T22:04:32Z Josh Taylor <josh@tyrusaudio.com> # Set the default search path for the deploy service user.
+
+databases/upgrade_debug/create/shared 2025-04-07T22:09:34Z Josh Taylor <josh@tyrusaudio.com> # Create a database for the upgrade scripts.
+databases/upgrade_debug/grant/nonadmin/shared 2025-04-08T19:31:08Z Josh Taylor <josh@tyrusaudio.com> # Set the privileges for users that can deploy to the database.
+databases/upgrade_debug/schemas/nonpublic/create/shared 2025-04-14T21:35:19Z Josh Taylor <josh@tyrusaudio.com> # Create a schema where objects created if no schema is specified.
+databases/upgrade_debug/schemas/nonpublic/grant/shared 2025-04-14T21:46:49Z Josh Taylor <josh@tyrusaudio.com> # Set the privileges for the nonadmin user on the nonpublic schema.
+databases/upgrade_debug/schemas/public/grant/shared 2025-04-08T18:26:44Z Josh Taylor <josh@tyrusaudio.com> # Set the privileges for the nonadmin user on the public schema.
+
+databases/install_debug/create/shared 2025-04-07T22:09:34Z Josh Taylor <josh@tyrusaudio.com> # Create a database for the install scripts.
+databases/install_debug/grant/nonadmin/shared 2025-04-08T19:31:08Z Josh Taylor <josh@tyrusaudio.com> # Set the privileges for users that can deploy to the database.
+databases/install_debug/schemas/nonpublic/create/shared 2025-04-14T21:35:19Z Josh Taylor <josh@tyrusaudio.com> # Create a schema where objects created if no schema is specified.
+databases/install_debug/schemas/nonpublic/grant/shared 2025-04-14T21:46:49Z Josh Taylor <josh@tyrusaudio.com> # Set the privileges for the nonadmin user on the nonpublic schema.
+databases/install_debug/schemas/public/grant/shared 2025-04-08T18:26:44Z Josh Taylor <josh@tyrusaudio.com> # Set the privileges for the nonadmin user on the public schema.
+
+databases/deploy_debug/create/shared 2025-04-07T22:09:34Z Josh Taylor <josh@tyrusaudio.com> # Create a database and set its owner to the deploy role.
+databases/deploy_debug/grant/nonadmin/shared 2025-04-08T19:31:08Z Josh Taylor <josh@tyrusaudio.com> # Set the privileges for users that can deploy to the database.
+databases/deploy_debug/schemas/nonpublic/create/shared 2025-04-14T21:35:19Z Josh Taylor <josh@tyrusaudio.com> # Create a schema where objects created if no schema is specified.
+databases/deploy_debug/schemas/nonpublic/grant/shared 2025-04-14T21:46:49Z Josh Taylor <josh@tyrusaudio.com> # Set the privileges for the nonadmin user on the nonpublic schema.
+databases/deploy_debug/schemas/public/grant/shared 2025-04-08T18:26:44Z Josh Taylor <josh@tyrusaudio.com> # Set the privileges for the nonadmin user on the public schema.

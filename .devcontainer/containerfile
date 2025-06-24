@@ -1,0 +1,104 @@
+# Install tools required by multiple build stages
+FROM ubuntu:24.04 AS dev-tools
+RUN apt update && apt install -y curl build-essential
+
+# Use the same base image as the tagged image, so that we use the same version of perl when building sqitch.
+FROM dev-tools AS sqitch-build
+WORKDIR /work
+# Download the cpm perl module installer
+# Download the sqitch release
+# Extract the sqitch release
+RUN curl -sL --compressed https://git.io/cpm > /usr/bin/cpm && chmod +x /usr/bin/cpm \
+    && curl -sL https://github.com/sqitchers/sqitch/releases/download/v1.5.0/App-Sqitch-v1.5.0.tar.gz -o ./sqitch.tar.gz \
+    && mkdir ./sqitch && tar xvzf ./sqitch.tar.gz --strip-components 1 -C ./sqitch
+WORKDIR /work/sqitch
+# Install the Build module
+# Install the dependencies
+# Specify where to install the sqitch app files and to include postgres
+# Perform remaining build and isntall steps
+RUN cpm install -L /app/lib/sqitch --verbose --no-test --show-build-log-on-failure Module::Build \
+    && cpm install -L /app/lib/sqitch --verbose --no-test --show-build-log-on-failure --with-recommends --with-configure --cpanfile ./dist/cpanfile \
+    && perl -I /app/lib/sqitch/lib/perl5 ./Build.PL --quiet --install_base /app --etcdir /etc/sqitch --with postgres \
+    && ./Build installdeps && ./Build && ./Build install
+
+
+
+FROM dev-tools
+# Create the user that the container will be run as
+RUN userdel -r ubuntu && useradd dev -m -s /bin/bash
+
+# Install podman
+# The following links discuss how to run podman inside podman.
+# https://samuel.forestier.app/blog/security/podman-rootless-in-podman-rootless-the-debian-way
+# https://www.redhat.com/en/blog/podman-inside-container
+# python3, python3-pip, and pipx are included, because they are necessary for podman-compose
+# containers-storage allows images and containers to be stored in other directories
+RUN apt install -y --no-install-recommends podman fuse-overlayfs slirp4netns uidmap libcap2-bin python3 pipx \
+    containers-storage libcap2-bin
+
+# The setuid capability is added to newuidmap and newgidmap and the setuid bit is removed.
+# This workaround is necessary, because of differences in the way ubuntu and fedora achieve
+# setuid capability. This was copied from here:
+# https://samuel.forestier.app/blog/security/podman-rootless-in-podman-rootless-the-debian-way
+RUN chmod 0755 /usr/bin/newuidmap /usr/bin/newgidmap \
+    && setcap cap_setuid=ep /usr/bin/newuidmap \
+    && setcap cap_setgid=ep /usr/bin/newgidmap \
+    && apt autoremove --purge -y libcap2-bin
+
+# Rootless podman can only have 65536 UIDs and 65536 GIDs. Rootful podman is necessary to be able to map
+# more UIDs and GIDs than that. Mapping UIDs and GIDs is necessary for creating containers.
+RUN printf "dev:1001:6553600" > /etc/subuid \
+    && printf "dev:1001:6553600" > /etc/subgid 
+
+# Copy config files
+COPY ./root/etc/containers/containers.conf /etc/containers/containers.conf
+
+USER dev
+# Copy config files
+COPY --chown=dev:dev --chmod=644 ./root/home/dev/.config/containers/storage.conf /home/dev/.config/containers/storage.conf
+COPY --chown=dev:dev --chmod=644 ./root/home/dev/.config/containers/containers.conf /home/dev/.config/containers/containers.conf
+
+# This was copied from here, though it is not explained there either:
+# https://samuel.forestier.app/blog/security/podman-rootless-in-podman-rootless-the-debian-way
+ENV _CONTAINERS_USERNS_CONFIGURED=""
+
+# Install podman compose
+RUN pipx install podman-compose
+
+USER root
+# Install dev tools
+RUN apt install -y rsync git nano vim locales
+# Generate the locale, which is used by perl.
+RUN locale-gen en_US.UTF-8
+
+# Install sqitch runtime dependencies for sqitch and clean up apt files
+RUN mkdir -p /usr/share/man/man1 /usr/share/man/man7 \
+    && apt install -y --no-install-recommends perl-doc libpq5 postgresql-client libdbd-pg-perl \
+    && apt clean && rm -rf /var/cache/apt/* /var/lib/apt/lists/* \
+    # Let libcurl find certs. https://stackoverflow.com/q/3160909/79202
+    && mkdir -p /etc/pki/tls && ln -s /etc/ssl/certs /etc/pki/tls/
+
+# Copy the sqitch files
+COPY --from=sqitch-build /etc/sqitch /etc/sqitch/
+COPY --from=sqitch-build /app /tmp/sqitch-app
+
+# Merge the sqitch files into the /usr directory
+# Modify the 1st line of sqitch script to add the locations of its module dependencies to perl's @INC
+# Remove temporary files
+RUN rsync -av /tmp/sqitch-app/ /usr/ && \
+    sed -i "1s|.*|& -I /usr/lib/sqitch/lib/perl5 -I /usr/lib/perl5|" /usr/bin/sqitch \
+    && rm -rf /tmp/sqitch-app
+
+ENV SQITCH_EDITOR=nano SQITCH_PAGER=less LESS=-R LC_ALL=en_US.UTF-8
+
+
+
+
+
+USER dev
+# Execute the CMD and loop for infinity.
+ENTRYPOINT [ "/bin/sh", "-c",  "echo Container started\ntrap \"exit 0\" 15\n\nexec \"$@\"\nwhile sleep 1 & wait $!; do :; done" ]
+# Open a shell. Note: the CMD must be an array with a single element. Multiple elements are interpreted wrongly by the entrypoint.
+# If CMD needs multiple options, then put all the options in a single string in a single array element.
+CMD [ "/bin/bash" ]
+LABEL com.tyrusaudio="dev container"

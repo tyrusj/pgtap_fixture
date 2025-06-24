@@ -14,7 +14,7 @@ output_install_makefile := $(output_directory)/makefile
 control_file := ../install/pgtap_fixture.control
 output_control_file := $(output_directory)/$(notdir $(control_file))
 # The directory where sqitch should be executed from
-sqitch_directory := ../src
+sqitch_directory := ../src/sqitch
 # The name of the sqitch plan file that will be used to generate the update scripts
 sqitch_upgrade_plan_name := upgrade.plan
 # The name of the sqitch plan file that will be used to generate the install script
