@@ -22,7 +22,7 @@ begin
 
     return query select tap.is(
         _format_skip(true, 1, 'name', 'description', null),
-        'ok 1 - name description # skip',
+        'ok 1 - name description # skip ',
         format(E'%s\ntest_scenario: %s', test_description,
         $scenario$2: Reason is null$scenario$)
     );

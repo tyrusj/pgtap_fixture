@@ -11,7 +11,7 @@ declare test_description text := $test_description$
 When commenting lines, for each line in the given string, if that line's number is greater than or
 equal to the given first line number, then the function shall insert '# ' at the beginning of that
 line.
-$test_description$;
+$test_description$; /*'*/
 begin
 
     return query select tap.is(
@@ -33,7 +33,7 @@ Line two.', null),
 
     return query select tap.is(
         _comment_lines(null, null),
-        null::text,
+        '# ',
         format(E'%s\ntest_scenario: %s', test_description,
         $scenario$3: String is null.$scenario$)
     );
