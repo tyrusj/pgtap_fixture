@@ -19,7 +19,7 @@ begin
     insert into fixture
         ("name", "parent_fixture_id")
     values
-		('top level fixture A', null)
+		('top_level_fixture_A', null)
 	returning "id" into id_of_fixture_with_no_parent
     ;
 
@@ -27,7 +27,7 @@ begin
 	insert into fixture
 		("name", "parent_fixture_id")
 	values
-		('child fixture A', id_of_fixture_with_no_parent)
+		('child_fixture_A', id_of_fixture_with_no_parent)
 	returning "id" into id_of_fixture_with_parent_A
 	;
 
@@ -35,7 +35,7 @@ begin
 	insert into fixture
 		("name", "parent_fixture_id")
 	values
-		('child fixture B', id_of_fixture_with_no_parent)
+		('child_fixture_B', id_of_fixture_with_no_parent)
 	returning "id" into id_of_fixture_with_parent_B
 	;
 
@@ -44,7 +44,7 @@ begin
 	return query select tap.lives_ok(
 		format($test$
 			insert into fixture ("name", "parent_fixture_id")
-			values ('NOT child fixture A', %s);
+			values ('NOT_child_fixture_A', %s);
 		$test$, id_of_fixture_with_parent_A),
 		format(
 			E'%s\ntest_scenario: %s', test_description,
@@ -55,7 +55,7 @@ begin
 	return query select tap.throws_ok(
 		format($test$
 			insert into fixture ("name", "parent_fixture_id")
-			values ('child fixture A', %s);
+			values ('child_fixture_A', %s);
 		$test$, id_of_fixture_with_no_parent),
 		null,
 		format(
@@ -67,7 +67,7 @@ begin
 	return query select tap.lives_ok(
 		$test$
 		insert into fixture ("name", "parent_fixture_id")
-		values ('NOT top level fixture A', null);
+		values ('NOT_top_level_fixture_A', null);
 		$test$,
 		format(
 			E'%s\ntest_scenario: %s', test_description,
@@ -78,7 +78,7 @@ begin
 	return query select tap.throws_ok(
 		$test$
 		insert into fixture ("name", "parent_fixture_id")
-		values ('top level fixture A', null);
+		values ('top_level_fixture_A', null);
 		$test$,
 		null,
 		format(
@@ -90,7 +90,7 @@ begin
 	return query select tap.lives_ok(
 		format($test$
 			insert into fixture ("name", "parent_fixture_id")
-			values ('top level fixture A', %s);
+			values ('top_level_fixture_A', %s);
 		$test$, id_of_fixture_with_parent_A),
 		format(
 			E'%s\ntest_scenario: %s', test_description,
@@ -101,7 +101,7 @@ begin
 	return query select tap.lives_ok(
 		format($test$
 			insert into fixture ("name", "parent_fixture_id")
-			values ('child fixture B', %s);
+			values ('child_fixture_B', %s);
 		$test$, id_of_fixture_with_parent_A),
 		format(
 			E'%s\ntest_scenario: %s', test_description,

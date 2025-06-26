@@ -7,7 +7,7 @@ create table fixture
 (
     id integer primary key generated always as identity,
     name text not null
-        check (name not like '%/%')
+        check (name not similar to '%[/#\\\r\n\t ]%')
         check (length(name) != 0)
         ,
     description text,
@@ -24,7 +24,7 @@ comment on table fixture is
 comment on column fixture.id is
     'The ID of the fixture.';
 comment on column fixture.name is
-    'The name of the fixture. The name cannot contain slash ''/'' characters, as these are used to define fixture paths.';
+    $$The name of the fixture. The name cannot contain slash '/' characters, as these are used to define fixture paths. Other forbidden characters are '#', '\', carriage returns ('\r'), new lines ('\n'), tabs ('\n'), spaces (' ')$$;
 comment on column fixture.description is
     'The description of the fixture.';
 comment on column fixture.parent_fixture_id is

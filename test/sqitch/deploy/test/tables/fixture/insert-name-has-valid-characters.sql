@@ -8,19 +8,24 @@ language plpgsql
 as
 $$
 declare test_description text :=$description$
-If a record is added to the fixture table, and if that record's name contains slash characters, then the
-database shall throw an exception.
-$description$;
+If a record is added to the fixture table, and if that record's name contains any of the following characters,
+then the database shall throw an exception: '/', '#', '\', carriage return, new line, tab, space.
+$description$; /*'*/
 declare test_data jsonb[] := array[
     '["validname", false]',
-    '["valid name !@#$%--", false]',
+    '["valid_name_!@$%--", false]',
     '[";--", false]',
-    '["\\\\\\", false]',
     '["invalidname/", true]',
     '["invalid/name", true]',
     '["/invalidname", true]',
     '["/", true]',
-    '["//", true]'
+    '["//", true]',
+    '["invalidname with spaces", true]',
+    '["invalid  name with    tabs", true]',
+    '["invalid\name", true]',
+    '["invalid#name", true]',
+    E'["invalid\\nname", true]',
+    E'["invalid\\rname", true]'
 ];
 declare test_datum jsonb;
 begin

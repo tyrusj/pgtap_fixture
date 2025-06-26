@@ -4,6 +4,25 @@ This PostgreSQL extension is intended to be used with the [pgTAP](https://pgtap.
 - Allows per-fixture definition of scripts to run before or after the fixture.
 - Allows creation of tests that accept parameters.
 
+## Supported PostgreSQL versions
+- PostgreSQL 17
+
+## Installation
+
+To install pgTAP_fixture, download a zip file from the releases, extract it, and run `make install`. To uninstall it, run `make uninstall`.
+
+``` shell
+# Install
+tar xzvf ./pgtap_fixture-0.0.1.tar.gz
+cd pgtap_fixture-0.0.1
+make install
+```
+``` shell
+# Uninstall
+cd pgtap_fixture-0.0.1
+make uninstall
+```
+
 ## Usage
 
 ### Creating tests

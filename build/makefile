@@ -13,6 +13,9 @@ output_install_makefile := $(output_directory)/makefile
 # The control file used by PGXS to install the extension
 control_file := ../install/pgtap_fixture.control
 output_control_file := $(output_directory)/$(notdir $(control_file))
+# The file that contains the license that the software is released under
+license_file := ../LICENSE
+output_license_file := $(output_directory)/$(license_file_name)
 # The directory where sqitch should be executed from
 sqitch_directory := ../src/sqitch
 # The name of the sqitch plan file that will be used to generate the update scripts
@@ -58,7 +61,7 @@ output_archive := $(output_archive_directory)/$(EXTENSION)-$(current_version)$(o
 .PHONY : all
 
 all : $(upgrade_sql_files) $(install_sql_file) $(output_install_makefile) $(output_shared_makefile) \
-	$(output_control_file) $(output_archive)
+	$(output_control_file) $(output_archive) $(output_license_file)
 
 # Create the output directories. Use these targets as order-only prerequisites of the targets that belong
 # in the output directories.
@@ -71,7 +74,7 @@ $(output_archive_directory) :
 
 # Create a zipped archive of the output content
 $(output_archive) : $(upgrade_sql_files) $(install_sql_file) $(output_install_makefile) \
-	$(output_shared_makefile) $(output_control_file) \
+	$(output_shared_makefile) $(output_control_file) $(output_license_file) \
 	| $(output_archive_directory)
 	tar $(output_archive_type_tar_option)cvf $(output_archive) --transform "s,^dist,$(EXTENSION)-$(current_version)," $(output_directory)
 
@@ -82,9 +85,15 @@ $(output_shared_makefile) : $(shared_makefile) | $(output_directory)
 	cp $< $@
 
 # Copy the control file to the output and set its default version to the current version
+# Do this if either the control file or the install SQL file changes, as a change to the install SQL file
+# may indicate that the current version changed.
 $(output_control_file) : $(control_file) $(install_sql_file)
 	cp $< $@
 	printf "\ndefault_version = '$(current_version)'" >> $@
+
+# Copy the license file to the output
+$(output_license_file) : $(license_file)
+	cp $< $@
 
 # Generate the install script by combining all of the SQL scripts in the install plan. Also execute this target
 # if the install plan file changes, as the changes may have been reordered.

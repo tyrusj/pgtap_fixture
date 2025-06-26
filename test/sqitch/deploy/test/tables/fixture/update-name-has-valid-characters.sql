@@ -8,19 +8,24 @@ language plpgsql
 as
 $$
 declare test_description text :=$description$
-If a record is modified in the fixture table, and if that record's name contains slash characters, then the
-database shall throw an exception.
-$description$;
+If a record is modified in the fixture table, and if that record's name contains any of the following
+characters, then the database shall throw an exception: '/', '#', '\', carriage return, new line, tab, space.
+$description$; /*'*/
 declare test_data jsonb[] := array[
     '["existing_name_1", "validname", false]',
-    '["existing_name_2", "valid name !@#$%--", false]',
+    '["existing_name_2", "valid_name_!@$%--", false]',
     '["existing_name_3", ";--", false]',
-    '["existing_name_4", "\\\\\\", false]',
-    '["existing_name_5", "invalidname/", true]',
-    '["existing_name_6", "invalid/name", true]',
-    '["existing_name_7", "/invalidname", true]',
-    '["existing_name_8", "/", true]',
-    '["existing_name_9", "//", true]'
+    '["existing_name_4", "invalidname/", true]',
+    '["existing_name_5", "invalid/name", true]',
+    '["existing_name_6", "/invalidname", true]',
+    '["existing_name_7", "/", true]',
+    '["existing_name_8", "//", true]',
+    '["existing_name_9", "invalidname with spaces", true]',
+    '["existing_name_10", "invalid  name with    tabs", true]',
+    '["existing_name_11", "invalid\name", true]',
+    '["existing_name_12", "invalid#name", true]',
+    E'["existing_name_13", "invalid\\nname", true]',
+    E'["existing_name_14", "invalid\\rname", true]'
 ];
 declare test_datum jsonb;
 begin

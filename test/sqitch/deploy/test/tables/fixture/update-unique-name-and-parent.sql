@@ -20,7 +20,7 @@ begin
 	insert into fixture
 		("name", "parent_fixture_id")
 	values
-		('fixture to update', null)
+		('fixture_to_update', null)
 	returning "id" into id_of_fixture_to_update
 	;
 
@@ -28,7 +28,7 @@ begin
     insert into fixture
         ("name", "parent_fixture_id")
     values
-		('top level fixture A', null)
+		('top_level_fixture_A', null)
 	returning "id" into id_of_fixture_with_no_parent
     ;
 
@@ -36,7 +36,7 @@ begin
 	insert into fixture
 		("name", "parent_fixture_id")
 	values
-		('child fixture A', id_of_fixture_with_no_parent)
+		('child_fixture_A', id_of_fixture_with_no_parent)
 	returning "id" into id_of_fixture_with_parent_A
 	;
 
@@ -44,7 +44,7 @@ begin
 	insert into fixture
 		("name", "parent_fixture_id")
 	values
-		('child fixture B', id_of_fixture_with_no_parent)
+		('child_fixture_B', id_of_fixture_with_no_parent)
 	returning "id" into id_of_fixture_with_parent_B
 	;
 
@@ -53,7 +53,7 @@ begin
 	return query select tap.lives_ok(
 		format($test$
 			update fixture set ("name", "parent_fixture_id")
-			= ('NOT child fixture A', %s)
+			= ('NOT_child_fixture_A', %s)
 			where id = %s;
 		$test$, id_of_fixture_with_parent_A, id_of_fixture_to_update),
 		format(
@@ -65,7 +65,7 @@ begin
 	return query select tap.throws_ok(
 		format($test$
 			update fixture set ("name", "parent_fixture_id")
-			= ('child fixture A', %s)
+			= ('child_fixture_A', %s)
 			where id = %s;
 		$test$, id_of_fixture_with_no_parent, id_of_fixture_to_update),
 		null,
@@ -78,7 +78,7 @@ begin
 	return query select tap.lives_ok(
 		format($test$
 			update fixture set ("name", "parent_fixture_id")
-			= ('NOT top level fixture A', null)
+			= ('NOT_top_level_fixture_A', null)
 			where id = %s;
 		$test$, id_of_fixture_to_update),
 		format(
@@ -90,7 +90,7 @@ begin
 	return query select tap.throws_ok(
 		format($test$
 			update fixture set ("name", "parent_fixture_id")
-			= ('top level fixture A', null)
+			= ('top_level_fixture_A', null)
 			where id = %s;
 		$test$, id_of_fixture_to_update),
 		null,
@@ -103,7 +103,7 @@ begin
 	return query select tap.lives_ok(
 		format($test$
 			update fixture set ("name", "parent_fixture_id")
-			= ('top level fixture A', %s)
+			= ('top_level_fixture_A', %s)
 			where id = %s;
 		$test$, id_of_fixture_with_parent_A, id_of_fixture_to_update),
 		format(
@@ -115,7 +115,7 @@ begin
 	return query select tap.lives_ok(
 		format($test$
 			update fixture set ("name", "parent_fixture_id")
-			= ('child fixture B', %s)
+			= ('child_fixture_B', %s)
 			where id = %s;
 		$test$, id_of_fixture_with_parent_A, id_of_fixture_to_update),
 		format(
