@@ -246,3 +246,125 @@ begin
 end;
 $example$;
 ```
+
+Executing `select example();` returns the following output
+
+``` text
+TAP Version 14
+# Subtest: all 
+    # Subtest: all/is_id_valid 
+        # Subtest: my_tests.valid_id_content Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+            # Subtest: my_tests.valid_id_content Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+            # Test data description: Try length 8. Expect true.
+            # Test data: [12345678, true]
+                ok 1 - Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+                # Test data description: Try length 8. Expect true.
+                # Test data: [12345678, true]
+                1..1
+            ok 1 - my_tests.valid_id_content Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+            # Test data description: Try length 8. Expect true.
+            # Test data: [12345678, true]
+            # Subtest: my_tests.valid_id_content Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+            # Test data description: Try length 8. Expect false.
+            # Test data: [123456789, false]
+                ok 1 - Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+                # Test data description: Try length 8. Expect false.
+                # Test data: [123456789, false]
+                1..1
+            ok 2 - my_tests.valid_id_content Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+            # Test data description: Try length 8. Expect false.
+            # Test data: [123456789, false]
+            # Subtest: my_tests.valid_id_content Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+            # Test data description: Try length 7. Expect false.
+            # Test data: [1234567, false]
+                ok 1 - Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+                # Test data description: Try length 7. Expect false.
+                # Test data: [1234567, false]
+                1..1
+            ok 3 - my_tests.valid_id_content Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+            # Test data description: Try length 7. Expect false.
+            # Test data: [1234567, false]
+            # Subtest: my_tests.valid_id_content Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+            # Test data description: Try length 0. Expect false.
+            # Test data: ["", false]
+                ok 1 - Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+                # Test data description: Try length 0. Expect false.
+                # Test data: ["", false]
+                1..1
+            ok 4 - my_tests.valid_id_content Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+            # Test data description: Try length 0. Expect false.
+            # Test data: ["", false]
+            # Subtest: my_tests.valid_id_content Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+            # Test data description: Try 8 letters. Expect false.
+            # Test data: ["abcdefgh", false]
+                ok 1 - Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+                # Test data description: Try 8 letters. Expect false.
+                # Test data: ["abcdefgh", false]
+                1..1
+            ok 5 - my_tests.valid_id_content Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+            # Test data description: Try 8 letters. Expect false.
+            # Test data: ["abcdefgh", false]
+            # Subtest: my_tests.valid_id_content Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+            # Test data description: Try 1 number and 7 letters. Expect false.
+            # Test data: ["1abcdefg", false]
+                ok 1 - Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+                # Test data description: Try 1 number and 7 letters. Expect false.
+                # Test data: ["1abcdefg", false]
+                1..1
+            ok 6 - my_tests.valid_id_content Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+            # Test data description: Try 1 number and 7 letters. Expect false.
+            # Test data: ["1abcdefg", false]
+            # Subtest: my_tests.valid_id_content Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+            # Test data description: Try 1 letter and 7 numbers. Expect false.
+            # Test data: ["a1234567", false]
+                ok 1 - Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+                # Test data description: Try 1 letter and 7 numbers. Expect false.
+                # Test data: ["a1234567", false]
+                1..1
+            ok 7 - my_tests.valid_id_content Test description: Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+            # Test data description: Try 1 letter and 7 numbers. Expect false.
+            # Test data: ["a1234567", false]
+            1..7
+        ok 1 - my_tests.valid_id_content Verifies that IDs are invalid if they are not 8 characters long or have anything but numbers.
+        1..1
+    ok 1 - all/is_id_valid 
+    # Subtest: all/format_data fixture for format_data tests.
+        # Subtest: my_tests.correctly_formatted_data Verifies that format_data correctly formats the data.
+            # Subtest: my_tests.correctly_formatted_data Test description: Verifies that format_data correctly formats the data.
+            # Test data description: Try length data with upper and lower case.
+            # Test data: ["My Data", "data1 : my data"]
+                ok 1 - Test description: Verifies that format_data correctly formats the data.
+                # Test data description: Try length data with upper and lower case.
+                # Test data: ["My Data", "data1 : my data"]
+                1..1
+            ok 1 - my_tests.correctly_formatted_data Test description: Verifies that format_data correctly formats the data.
+            # Test data description: Try length data with upper and lower case.
+            # Test data: ["My Data", "data1 : my data"]
+            # Subtest: my_tests.correctly_formatted_data Test description: Verifies that format_data correctly formats the data.
+            # Test data description: Try length data with upper case.
+            # Test data: ["MY DATA", "data1 : my data"]
+                ok 1 - Test description: Verifies that format_data correctly formats the data.
+                # Test data description: Try length data with upper case.
+                # Test data: ["MY DATA", "data1 : my data"]
+                1..1
+            ok 2 - my_tests.correctly_formatted_data Test description: Verifies that format_data correctly formats the data.
+            # Test data description: Try length data with upper case.
+            # Test data: ["MY DATA", "data1 : my data"]
+            # Subtest: my_tests.correctly_formatted_data Test description: Verifies that format_data correctly formats the data.
+            # Test data description: Try length data with lower case.
+            # Test data: ["my data", "data1 : my data"]
+                ok 1 - Test description: Verifies that format_data correctly formats the data.
+                # Test data description: Try length data with lower case.
+                # Test data: ["my data", "data1 : my data"]
+                1..1
+            ok 3 - my_tests.correctly_formatted_data Test description: Verifies that format_data correctly formats the data.
+            # Test data description: Try length data with lower case.
+            # Test data: ["my data", "data1 : my data"]
+            1..3
+        ok 1 - my_tests.correctly_formatted_data Verifies that format_data correctly formats the data.
+        1..1
+    ok 2 - all/format_data fixture for format_data tests.
+    1..2
+ok 1 - all 
+1..1
+```
