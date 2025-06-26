@@ -84,7 +84,7 @@ $(output_shared_makefile) : $(shared_makefile) | $(output_directory)
 # Copy the control file to the output and set its default version to the current version
 $(output_control_file) : $(control_file) $(install_sql_file)
 	cp $< $@
-	printf "\ndefault_version = $(current_version)" >> $@
+	printf "\ndefault_version = '$(current_version)'" >> $@
 
 # Generate the install script by combining all of the SQL scripts in the install plan. Also execute this target
 # if the install plan file changes, as the changes may have been reordered.

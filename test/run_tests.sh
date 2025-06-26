@@ -26,4 +26,4 @@ mkdir -p $results_directory
 psql \
     -d $connection_string/$database_name \
     -c "select tap.runtests('unit_test', '$test_function_pattern');" \
-    > $results_directory/postgres${postgres_version}_${database_name}.results
+    > $results_directory/postgres${postgres_version}_${database_name}.tap

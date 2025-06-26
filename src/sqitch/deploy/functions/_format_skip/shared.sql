@@ -76,14 +76,14 @@ begin atomic
     from first_line, remaining_lines;
 end;
 
-comment on function _format_skip(ok boolean, num integer, name text, description text, reason text default null) is 
+comment on function _format_skip(ok boolean, num integer, name text, description text, reason text) is 
     $$Returns a string whose format complies with the TAP specification requirements for a skipped test.
     Arguments:
         ok: The test status.
         num: The test number.
         name: The test name.
         description: The test description.
-        reason: The reason that the test was skipped.$$
+        reason: The reason that the test was skipped.$$;
 
 --#endregion exclude_transaction
 COMMIT;

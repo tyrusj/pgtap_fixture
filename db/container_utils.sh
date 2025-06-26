@@ -27,7 +27,7 @@ create () {
         --ipc private --shm-size 128mb  \
         --env POSTGRES_PASSWORD=password --env PGDATA=/var/lib/postgresql/data/pgdata \
         --volume $data_volume_name:/var/lib/postgresql/data:Z \
-        --volume ..:/pgtap_fixture:ro \
+        --volume $script_dir/..:/pgtap_fixture:ro \
         --publish 5432:5432 \
         localhost/$image_name
     podman container start $container_name

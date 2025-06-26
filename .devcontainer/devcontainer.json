@@ -24,7 +24,9 @@
 			},
 			"extensions": [
 				"ms-azuretools.vscode-docker",
-				"mtxr.sqltools-driver-pg"
+				"mtxr.sqltools-driver-pg",
+				"numaru.vscode-tap",
+				"bierner.markdown-preview-github-styles"
 			]
 		}
 	},
